@@ -10,6 +10,8 @@ const { response, request } = require('express');
 var app = express();
 const port = process.env.PORT || 3000;
 
+console.log('process.env.PORT', process.env.PORT);
+
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
