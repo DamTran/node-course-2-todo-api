@@ -10,8 +10,6 @@ const { response, request } = require('express');
 var app = express();
 const port = process.env.PORT || 3000;
 
-console.log('process.env.PORT', process.env.PORT);
-
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
@@ -57,8 +55,8 @@ app.get('/todos/:id', (req, res) => {
 
 });
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+app.listen(port, () => {
+    console.log(`Started on port ${port}`);
 });
 
 module.exports = {app};
