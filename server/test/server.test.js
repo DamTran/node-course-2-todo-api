@@ -36,3 +36,7 @@ describe('POST /todos', () => {
         })
     });
 });
+
+// ,
+//     "test": "mocha server/**/*.test.js",
+//     "test-watch": "nodemon --exec npm test"

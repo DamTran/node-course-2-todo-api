@@ -55,8 +55,8 @@ app.get('/todos/:id', (req, res) => {
 
 });
 
-app.listen(port, () => {
-    console.log(`Started on port ${port}`);
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 module.exports = {app};
