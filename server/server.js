@@ -2,8 +2,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var {ObjectID} = require('mongodb');
 
-var {mongoose} = require('./db/mongoose');
-var {User} = require('./model/User');
 var {Todo} = require('./model/todo');
 const { response, request } = require('express');
 
