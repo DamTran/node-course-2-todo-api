@@ -2,9 +2,9 @@ const {mongoose} = require('../db/mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken')
 const _ = require('lodash');
-const { response } = require('express');
 const bcrypt = require('bcryptjs')
 
+// using schema so that we can add more method to it
 var UserSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -43,7 +43,8 @@ UserSchema.methods.toJSON = function (){
 // this is instance method
 UserSchema.methods.removeToken = function (token) {
     var user = this;
-    console.log(user)
+
+    // $pull parameter to update the token 
     return user.update({
         $pull: {
             tokens: {
@@ -69,6 +70,7 @@ UserSchema.methods.generateAuthToken = function () {
     })
 }
 
+// find, not update
 UserSchema.statics.findByToken = function (token) {
     var User = this;
 
@@ -86,6 +88,7 @@ UserSchema.statics.findByToken = function (token) {
     })
 }
 
+// asyn method will be replaced Promise method
 UserSchema.statics.findByCredentials = async function (email, password) {
     var User = this;
 
@@ -95,8 +98,6 @@ UserSchema.statics.findByCredentials = async function (email, password) {
 
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, user.password, (err, result) => {
-            //console.log(result)
-
             if (result === true) {
                 resolve(user)
             } else {
@@ -106,9 +107,9 @@ UserSchema.statics.findByCredentials = async function (email, password) {
     })
 }
 
+// mongoose middleware
 UserSchema.pre('save', function (next) {
     var user = this
-
     if (user.isModified('password')) {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {

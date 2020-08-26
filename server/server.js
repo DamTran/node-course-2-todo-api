@@ -2,18 +2,16 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { ObjectID } = require('mongodb');
-
 const { Todo } = require('./model/todo');
 const { User } = require('./model/user');
 const { response, request } = require('express');
-const user = require('./model/user');
-const bcrypt = require('bcryptjs')
 
 const { authenticate } = require('./middleware/authenticate')
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// to parse body as json
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
@@ -122,9 +120,7 @@ app.get('/users/me', authenticate, (req, res) => {
 // POST/users/login(email,password)
 app.post('/users/login', async (req, res) => {
     try {
-
         var body = _.pick(req.body, ['email', 'password'])
-
         var user = await User.findByCredentials(body.email, body.password)
         var token = await user.generateAuthToken();
         // gnerateToken 
