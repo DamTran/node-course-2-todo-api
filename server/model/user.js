@@ -40,6 +40,20 @@ UserSchema.methods.toJSON = function (){
     return _.pick(user, ['_id', 'email'])
 }
 
+// this is instance method
+UserSchema.methods.removeToken = function (token) {
+    var user = this;
+    console.log(user)
+    return user.update({
+        $pull: {
+            tokens: {
+                token: token
+            }
+        }
+    })
+}
+
+// this is instance method to update db
 UserSchema.methods.generateAuthToken = function () {
     var user = this;
     var access = 'auth'

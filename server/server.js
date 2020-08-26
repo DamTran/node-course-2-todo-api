@@ -131,8 +131,17 @@ app.post('/users/login', async (req, res) => {
         res.header('x-auth', token).send(user);
         
     } catch (e) {
-        console.log('Eror', e);
         res.status(401).send(e)
+    }
+})
+
+// async await method
+app.delete('/users/me/token', authenticate, async (req, res) => {
+    try {
+        await req.user.removeToken(req.token)
+        res.status(200).send()
+    } catch (e) {
+        res.status(400).send(e)
     }
 })
 
