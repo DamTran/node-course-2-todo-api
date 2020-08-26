@@ -1,7 +1,8 @@
 const {mongoose} = require('../db/mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken')
-const _ = require('lodash')
+const _ = require('lodash');
+const { response } = require('express');
 
 var UserSchema = new mongoose.Schema({
     email: {
@@ -54,6 +55,23 @@ UserSchema.methods.generateAuthToken = function () {
 
     return user.save().then(() => {
         return token
+    })
+}
+
+UserSchema.statics.findByToken = function (token) {
+    var User = this;
+
+    var decoded;
+    try {
+        decoded = jwt.verify(token, 'secretkey')
+    } catch (e) {
+        return Promise.reject('haha');
+    }
+
+    return User.findOne({
+        _id: decoded.id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
     })
 }
 
