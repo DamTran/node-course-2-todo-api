@@ -1,14 +1,15 @@
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
-const {ObjectID} = require('mongodb');
+const { ObjectID } = require('mongodb');
 
-const {Todo} = require('./model/todo');
-const {User} = require('./model/user');
+const { Todo } = require('./model/todo');
+const { User } = require('./model/user');
 const { response, request } = require('express');
 const user = require('./model/user');
+const bcrypt = require('bcryptjs')
 
-const {authenticate} = require('./middleware/authenticate')
+const { authenticate } = require('./middleware/authenticate')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -35,13 +36,13 @@ app.get('/todos', (req, res) => {
         });
     }, (e) => {
         res.status(400).send(e);
-    }). catch((e) => console.log(e));
+    }).catch((e) => console.log(e));
 });
 
 // GET
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
-    
+
     if (!ObjectID.isValid(id)) {
         return res.status(404).send();
     }
@@ -51,7 +52,7 @@ app.get('/todos/:id', (req, res) => {
             return res.status(404).send();
         }
 
-        res.send({todo});
+        res.send({ todo });
     }).catch((e) => {
         res.status(400).send();
     });
@@ -69,7 +70,7 @@ app.delete('/todos/:id', (req, res) => {
         if (!todo) {
             return res.status(400).send("can not find the ID");
         };
-        return res.send({todo});
+        return res.send({ todo });
     }).catch((e) => res.status(400).send(e));
 });
 
@@ -89,11 +90,11 @@ app.patch('/todos/:id', (req, res) => {
     }
 
     // remove todo by Id
-    Todo.findByIdAndUpdate(id, {$set: body}, {new : true}).then((todo) => {
+    Todo.findByIdAndUpdate(id, { $set: body }, { new: true }).then((todo) => {
         if (!todo) {
             return res.status(400).send("can not find the ID");
         };
-        return res.send({todo});
+        return res.send({ todo });
     }).catch((e) => res.status(400).send(e));
 });
 
@@ -118,8 +119,25 @@ app.get('/users/me', authenticate, (req, res) => {
     res.send(req.user)
 })
 
+// POST/users/login(email,password)
+app.post('/users/login', async (req, res) => {
+    try {
+
+        var body = _.pick(req.body, ['email', 'password'])
+
+        var user = await User.findByCredentials(body.email, body.password)
+        var token = await user.generateAuthToken();
+        // gnerateToken 
+        res.header('x-auth', token).send(user);
+        
+    } catch (e) {
+        console.log('Eror', e);
+        res.status(401).send(e)
+    }
+})
+
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
 });
 
-module.exports = {app};
+module.exports = { app };

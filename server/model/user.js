@@ -34,12 +34,9 @@ var UserSchema = new mongoose.Schema({
     }]
 });
 
+// override response
 UserSchema.methods.toJSON = function (){
     var user = this;
-    console.log('User', user)
-    //var userObject = user.toObject();
-    //console.log('userObject', userObject)
-
     return _.pick(user, ['_id', 'email'])
 }
 
@@ -47,7 +44,6 @@ UserSchema.methods.generateAuthToken = function () {
     var user = this;
     var access = 'auth'
     var token = jwt.sign({id: user._id.toHexString(), access}, 'secretkey').toString()
-    console.log(token)
 
     user.tokens.push({
         access,
@@ -76,6 +72,26 @@ UserSchema.statics.findByToken = function (token) {
     })
 }
 
+UserSchema.statics.findByCredentials = async function (email, password) {
+    var User = this;
+
+    var user = await User.findOne({ email });
+
+    if (!user) return Promise.reject('user not found')
+
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, result) => {
+            //console.log(result)
+
+            if (result === true) {
+                resolve(user)
+            } else {
+                reject('password is incorrect')
+            }
+        })
+    })
+}
+
 UserSchema.pre('save', function (next) {
     var user = this
 
@@ -91,9 +107,7 @@ UserSchema.pre('save', function (next) {
     }
 })
 
-
 var User = mongoose.model('User', UserSchema);
-
 
 module.exports = {
     User
