@@ -33,7 +33,7 @@ const router = express.Router()
  *                $ref: '#/components/schemas/User'
  */
 
-router
+ router
     .route('/')
     .post(userController.createUser)
 
