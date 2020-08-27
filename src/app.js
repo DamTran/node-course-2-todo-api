@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // v1 api routes
-app.use('/v1', routes);
+app.use('/api/v1', routes);
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);

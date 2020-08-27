@@ -3,7 +3,6 @@ const express = require('express');
 const { User } = require('../models/user');
 const catchAsync = require('../utils/catchAsync')
 
-// createUser
 const createUser = catchAsync(async (req, res) => {
     // TODO SERVICE
     var body = _.pick(req.body, ['email', 'password'])
