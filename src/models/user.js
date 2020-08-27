@@ -78,7 +78,7 @@ UserSchema.statics.findByToken = function (token) {
     try {
         decoded = jwt.verify(token, 'secretkey')
     } catch (e) {
-        return Promise.reject('haha');
+        return Promise.reject('token not found');
     }
 
     return User.findOne({
