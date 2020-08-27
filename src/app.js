@@ -2,11 +2,11 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { ObjectID } = require('mongodb');
-const { Todo } = require('./model/todo');
-const { User } = require('./model/user');
+const { Todo } = require('./models/todo');
+const { User } = require('./models/user');
 const { response, request } = require('express');
 
-const { authenticate } = require('./middleware/authenticate')
+const { authenticate } = require('./middlewares/authenticate')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -125,7 +125,6 @@ app.post('/users/login', async (req, res) => {
         var token = await user.generateAuthToken();
         // gnerateToken 
         res.header('x-auth', token).send(user);
-        
     } catch (e) {
         res.status(401).send(e)
     }
