@@ -20,7 +20,7 @@ const createUser = catchAsync(async (req, res) => {
     });
 })
 // GET USER
-const getUser =  catchAsync(async (req, res) => {
+const getUser = catchAsync(async (req, res) => {
     res.send(req.user)
 })
 
@@ -38,7 +38,7 @@ const login = catchAsync(async (req, res) => {
 })
 
 // async await method
-const logout =  catchAsync(async (req, res) => {
+const logout = catchAsync(async (req, res) => {
     try {
         await req.user.removeToken(req.token)
         res.status(200).send()

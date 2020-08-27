@@ -1,10 +1,15 @@
 {
-  "name": "todo-api",
+  "name": "node-todo-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node server/server.js",
+    "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'"
+  },
+  "engines": {
+    "node": "6.2.2"
   },
   "author": "",
   "license": "ISC",
@@ -12,13 +17,11 @@
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "crypto-js": "^3.1.6",
-    "express": "^4.17.1",
+    "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.15.0",
     "mongodb": "^2.2.5",
-    "mongoose": "^5.10.0",
-    "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4",
+    "mongoose": "^4.5.9",
     "validator": "^5.6.0"
   },
   "devDependencies": {
