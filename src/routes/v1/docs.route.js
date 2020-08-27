@@ -7,7 +7,7 @@ const router = express.Router();
 
 const specs = swaggerJsdoc({
   swaggerDefinition,
-  apis: ['src/models/*.js', 'src/routes/v1/*.js'],
+  apis: ['src/docs/*.yml', 'src/routes/v1/*.js'],
 });
 
 // https://levelup.gitconnected.com/swagger-time-to-document-that-express-api-you-built-9b8faaeae563
