@@ -2,22 +2,15 @@ const _ = require('lodash');
 const express = require('express');
 const { User } = require('../models/user');
 const catchAsync = require('../utils/catchAsync')
+const {userService} = require('../services/user.service')
+
+const httpStatus = require('http-status');
+
 
 const createUser = catchAsync(async (req, res) => {
-    // TODO SERVICE
-    var body = _.pick(req.body, ['email', 'password'])
-    var user = new User(body);
-
-    user.save().then(() => {
-        return user.generateAuthToken();
-        //res.send(doc);
-    }).then((token) => {
-        console.log(token)
-        res.header('x-auth', token).send(user);
-    }).catch((e) => {
-        console.log('Eror', e);
-        res.status(400).send(e)
-    });
+    const body = _.pick(req.body, ['email', 'password'])
+    const user = await userService(body)
+    res.status(httpStatus.CREATED).send(user);
 })
 // GET USER
 const getUser =  catchAsync(async (req, res) => {

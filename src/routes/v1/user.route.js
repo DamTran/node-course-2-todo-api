@@ -1,6 +1,9 @@
 const express = require('express')
 const userController = require('../../controllers/user.controller')
 const {authenticate} = require('../../middlewares/authenticate')
+const { validate, ValidationError, Joi } = require('express-validation')
+
+const {userValidation} = require('../../validations/user.validation')
 
 const router = express.Router()
 
@@ -35,7 +38,7 @@ const router = express.Router()
 
  router
     .route('/')
-    .post(userController.createUser)
+    .post(validate(userValidation, {}, {}), userController.createUser)
 
 router
     .route('/me')
@@ -46,6 +49,6 @@ router
     .route('/login')
     .all(authenticate)
     .get(userController.login)
-    .post(userController.logout)
+    .post(   userController.logout)
 
 module.exports = router;
