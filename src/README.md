@@ -21,7 +21,7 @@ It comes with many built-in features, such as authentication using JWT, request 
 - [Authorization](#authorization)
 - [Logging](#logging)
 - [Custom Mongoose Plugins](#custom-mongoose-plugins)
-- [Linting](#linting)
+- [Linting](#linting) 
 
 ## Features
 
