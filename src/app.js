@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
         return res.status(statusCode).send({
             code: statusCode,
             message: message,
-            ...(process.env.NODE_ENV !== 'production' && { stack: err.details.body })
+            ...(/*process.env.NODE_ENV === 'production' &&*/  { stack: err.details.body })
         })
     }
 
@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
     return res.status(statusCode).send({
         code: statusCode,
         message: err.message,
-        ...(process.env.NODE_ENV === 'production' && { stack: err.stack })
+        ...(/*process.env.NODE_ENV === 'production' &&*/ { stack: err.stack })
     })
 })
 
