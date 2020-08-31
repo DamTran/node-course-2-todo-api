@@ -10,12 +10,12 @@ const swaggerDef = {
     "A test project to understand how easy it is to document and Express API",
     license: {
       name: 'DamTQ',
-      url: 'http://localhost:3000/api/v1/docs/',
+      url: 'https://node-course-2-todo-api.herokuapp.com/api/v1/docs/',
     },
   },
   servers: [
     {
-      url: `http://localhost:3000/api/v1/`,
+      url: `https://node-course-2-todo-api.herokuapp.com/api/v1/`,
     },
   ]
 };
