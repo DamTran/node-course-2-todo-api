@@ -36,6 +36,28 @@ const router = express.Router()
  *                $ref: '#/components/schemas/User'
  */
 
+ /**
+ * @swagger
+ * path:
+ *  /users/login:
+ *    post:
+ *      summary: Login
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *        "200":
+ *          description: A user schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ */
+
  router
     .route('/')
     .post(validate(userValidation, {}, {}), userController.createUser)
@@ -48,7 +70,6 @@ router
 router
     .route('/login')
     .all(authenticate)
-    .get(userController.login)
-    .post(   userController.logout)
+    .post(userController.login)
 
 module.exports = router;

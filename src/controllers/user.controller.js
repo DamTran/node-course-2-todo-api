@@ -2,32 +2,25 @@ const _ = require('lodash');
 const express = require('express');
 const { User } = require('../models/user');
 const catchAsync = require('../utils/catchAsync')
-const {userService} = require('../services/user.service')
+const {userService} = require('../services')
 
 const httpStatus = require('http-status');
 
 
 const createUser = catchAsync(async (req, res) => {
     const body = _.pick(req.body, ['email', 'password'])
-    const user = await userService(body)
-    res.status(httpStatus.CREATED).send(user);
+    const {user, token} = await userService.createUser(body)
+    res.status(httpStatus.CREATED).header('x-auth', token).send(user);
 })
-// GET USER
+
 const getUser =  catchAsync(async (req, res) => {
     res.send(req.user)
 })
 
-// // POST/users/login(email,password)
-
 const login = catchAsync(async (req, res) => {
-    try {
-        var body = _.pick(req.body, ['email', 'password'])
-        var user = await User.findByCredentials(body.email, body.password)
-        var token = await user.generateAuthToken();
-        res.header('x-auth', token).send(user);
-    } catch (e) {
-        res.status(401).send(e)
-    }
+    const body = _.pick(req.body, ['email', 'password'])
+    const { user, token } = await userService.login(body)
+    res.status(httpStatus.OK).header('x-auth', token).send(user);
 })
 
 // async await method
