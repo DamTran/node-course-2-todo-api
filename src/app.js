@@ -25,17 +25,17 @@ app.use((req, res, next) => {
 //error handler middleware
 // TODO: to be modified
 app.use((err, req, res, next) => {
-    let {statusCode, message} = err
+    const statusCode = err.statusCode|| httpStatus.INTERNAL_SERVER_ERROR
+    const message = err.message || httpStatus[httpStatus.INTERNAL_SERVER_ERROR]
     if (err instanceof ValidationError) {
-        return res.status(statusCode).send({
-            code: statusCode,
+        return res.status(httpStatus.BAD_REQUEST).send({
+            code: httpStatus.BAD_REQUEST,
             message: message,
             ...(/*process.env.NODE_ENV === 'production' &&*/  { stack: err.details.body })
         })
     }
 
     if (!(err instanceof ApiError)) {
-        const message = message || httpStatus[statusCode];
         new ApiError(statusCode, message, false, err.stack);
     }
 
