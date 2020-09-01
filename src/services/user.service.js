@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError')
 const { User } = require('../models/user');
-const { stack } = require('../routes/v1');
 
 const createUser = async (userBody) => {
     var user = new User(userBody)

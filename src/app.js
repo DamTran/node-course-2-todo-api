@@ -6,7 +6,6 @@ const routes = require('./routes/v1')
 const ApiError = require('./utils/ApiError')
 const httpStatus = require('http-status')
 const { validate, ValidationError, Joi } = require('express-validation');
-const { stack } = require('./routes/v1');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,12 +19,12 @@ app.use('/api/v1', routes);
 app.use((req, res, next) => {
     next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
-  
+
 
 //error handler middleware
 // TODO: to be modified
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode|| httpStatus.INTERNAL_SERVER_ERROR
+    const statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR
     const message = err.message || httpStatus[httpStatus.INTERNAL_SERVER_ERROR]
     if (err instanceof ValidationError) {
         return res.status(httpStatus.BAD_REQUEST).send({
