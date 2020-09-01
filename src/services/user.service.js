@@ -6,7 +6,7 @@ const { stack } = require('../routes/v1');
 const createUser = async (userBody) => {
     var user = new User(userBody)
     await user.save()
-    const token = user.generateAuthToken()
+    const token = await user.generateAuthToken()
     return { user, token }
 }
 
@@ -18,7 +18,12 @@ const login = async (userBody) => {
     return { user, token }
 }
 
+const logout = async (userBody) => {
+    await userBody.user.removeToken(userBody.token)
+}
+
 module.exports = {
     createUser,
-    login
+    login,
+    logout
 }

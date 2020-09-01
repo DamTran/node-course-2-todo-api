@@ -39,10 +39,57 @@ const router = express.Router()
  /**
  * @swagger
  * path:
+ *  /users/me:
+ *    get:
+ *      summary: Get me
+ *      tags: [Users]
+ *      security:
+ *       - ApiKeyAuth: []
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Me'
+ *      responses:
+ *        "200":
+ *          description: ME
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Me'
+ */
+
+ /**
+ * @swagger
+ * path:
  *  /users/login:
  *    post:
  *      summary: Login
  *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *        "200":
+ *          description: A user schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ */
+
+  /**
+ * @swagger
+ * path:
+ *  /users/logout:
+ *    post:
+ *      summary: logout
+ *      tags: [Auth]
+ *      security:
+ *       - ApiKeyAuth: []
  *      requestBody:
  *        required: true
  *        content:
@@ -69,7 +116,11 @@ router
 
 router
     .route('/login')
-    .all(authenticate)
     .post(userController.login)
+
+router
+    .route('/logout')
+    .all(authenticate)
+    .post(userController.logout)
 
 module.exports = router;

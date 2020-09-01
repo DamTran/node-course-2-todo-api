@@ -23,14 +23,11 @@ const login = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).header('x-auth', token).send(user);
 })
 
-// async await method
-const logout =  catchAsync(async (req, res) => {
-    try {
-        await req.user.removeToken(req.token)
-        res.status(200).send()
-    } catch (e) {
-        res.status(400).send(e)
-    }
+const logout = catchAsync(async (req, res) => {
+    //await req.user.removeToken(req.token)
+    const body = _.pick(req, ['user', 'token'])
+    await userService.logout(body)
+    res.status(httpStatus.OK).send()
 })
 
 module.exports = {

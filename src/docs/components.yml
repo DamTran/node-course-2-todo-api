@@ -11,6 +11,11 @@ components:
         example:
           email: qtran3@example.com
           password: "123456"
+
+      Me:
+        type: object
+        properties:
+        example:
   
       Token:
         type: object
@@ -79,8 +84,8 @@ components:
               message: Not found
   
     securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
+      ApiKeyAuth:        # arbitrary name for the security scheme
+        type: apiKey
+        in: header       # can be "header", "query" or "cookie"
+        name: x-auth     # name of the header, query parameter or cookie
   
