@@ -24,7 +24,6 @@ const login = catchAsync(async (req, res) => {
 })
 
 const logout = catchAsync(async (req, res) => {
-    //await req.user.removeToken(req.token)
     const body = _.pick(req, ['user', 'token'])
     await userService.logout(body)
     res.status(httpStatus.OK).send()
