@@ -29,11 +29,17 @@ const logout = catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send()
 })
 
+const getUsers = catchAsync(async (req, res) => {
+    await userService.getUsers()
+    res.status(httpStatus.OK).send()
+})
+
 module.exports = {
     createUser,
     getUser,
     login,
-    logout
+    logout,
+    getUsers
 }
 
 

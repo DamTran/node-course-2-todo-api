@@ -22,8 +22,13 @@ const logout = async (userBody) => {
     await userBody.user.removeToken(userBody.token)
 }
 
+const getUsers = async () => {
+    await User.find({});
+}
+
 module.exports = {
     createUser,
     login,
-    logout
+    logout,
+    getUsers
 }

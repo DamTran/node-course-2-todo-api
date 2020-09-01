@@ -100,9 +100,26 @@ const router = express.Router()
  *                $ref: '#/components/schemas/User'
  */
 
+ /**
+ * @swagger
+ * path:
+ *  /users/:
+ *    get:
+ *      summary: Get list of users
+ *      tags: [Auths]
+ *      responses:
+ *        "200":
+ *          description: ME
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ */
+
  router
     .route('/')
     .post(validate(userValidation, {}, {}), userController.createUser)
+    .get(userController.getUsers)
 
 router
     .route('/me')

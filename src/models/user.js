@@ -88,6 +88,7 @@ UserSchema.statics.findByToken = function (token) {
     })
 }
 
+
 // asyn method will be replaced Promise method
 UserSchema.statics.findByCredentials = async function (email, password) {
     var User = this;
